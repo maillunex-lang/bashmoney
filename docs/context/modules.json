@@ -1,0 +1,132 @@
+{
+  "version": 1,
+  "project": "Бизнес Башкортостан",
+  "docs": {
+    "gdd.vision": {
+      "path": "docs/gdd/01_vision.md",
+      "title": "Цель и аудитория",
+      "summary": "зачем проект, для кого, платформы"
+    },
+    "gdd.features": {
+      "path": "docs/gdd/02_features.md",
+      "title": "Функциональность",
+      "summary": "функции и приоритеты"
+    },
+    "gdd.architecture": {
+      "path": "docs/gdd/03_architecture.md",
+      "title": "Архитектура и модули",
+      "summary": "модули, зоны файлов, данные"
+    },
+    "gdd.ui": {
+      "path": "docs/gdd/04_ui.md",
+      "title": "Интерфейс",
+      "summary": "экраны, адаптивность, доступность"
+    },
+    "gdd.quality": {
+      "path": "docs/gdd/05_quality.md",
+      "title": "Качество и безопасность",
+      "summary": "нефункциональные требования, тесты, безопасность"
+    },
+    "gdd.release": {
+      "path": "docs/gdd/06_release.md",
+      "title": "Релизы и эксплуатация",
+      "summary": "сборка, публикация, откат"
+    },
+    "gdd.decisions": {
+      "path": "docs/gdd/DECISIONS_APPROVED.md",
+      "title": "Утверждённые решения",
+      "summary": "решения владельца"
+    }
+  },
+  "always_docs": [
+    "gdd.decisions"
+  ],
+  "modules": [
+    {
+      "id": "core",
+      "title": "core",
+      "paths": [
+        "project.godot",
+        "scenes/**",
+        ".github/workflows/**"
+      ],
+      "docs": [
+        "gdd.architecture"
+      ],
+      "contracts": [
+        "docs/contracts/core.md"
+      ],
+      "tests": [
+        "tests/core/**"
+      ],
+      "public": [],
+      "depends_on": []
+    },
+    {
+      "id": "gameplay",
+      "title": "gameplay",
+      "paths": [
+        "scripts/gameplay/**",
+        "scenes/gameplay/**"
+      ],
+      "docs": [
+        "gdd.features"
+      ],
+      "contracts": [
+        "docs/contracts/gameplay.md"
+      ],
+      "tests": [
+        "tests/gameplay/**"
+      ],
+      "public": [],
+      "depends_on": [
+        "core"
+      ]
+    },
+    {
+      "id": "ui",
+      "title": "ui",
+      "paths": [
+        "scenes/ui/**",
+        "scripts/ui/**"
+      ],
+      "docs": [
+        "gdd.ui"
+      ],
+      "contracts": [
+        "docs/contracts/ui.md"
+      ],
+      "tests": [
+        "tests/ui/**"
+      ],
+      "public": [],
+      "depends_on": [
+        "core"
+      ]
+    },
+    {
+      "id": "release",
+      "title": "release",
+      "paths": [
+        ".github/workflows/release.yml",
+        "export_presets.cfg"
+      ],
+      "docs": [
+        "gdd.release"
+      ],
+      "contracts": [
+        "docs/contracts/release.md"
+      ],
+      "tests": [
+        "tests/release/**"
+      ],
+      "public": [],
+      "depends_on": [
+        "core"
+      ]
+    }
+  ],
+  "critical_rules": [
+    "Релиз публикуется только из релизного workflow (канал release, подпись, SHA256SUMS)."
+  ]
+}

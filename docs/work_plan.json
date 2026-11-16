@@ -1,0 +1,156 @@
+{
+  "project": "Бизнес Башкортостан",
+  "version": 2,
+  "repo": "maillunex-lang/bashmoney",
+  "default_branch": "main",
+  "gdd": "docs/GDD.md",
+  "stages": [
+    {
+      "id": "S0",
+      "title": "Проектирование"
+    },
+    {
+      "id": "S1",
+      "title": "Прототип"
+    },
+    {
+      "id": "S2",
+      "title": "Релиз"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "T0",
+      "title": "GDD и дорожная карта",
+      "stage": "S0",
+      "lane": "director",
+      "goal": "Директор готовит docs/GDD.md, решения и docs/work_plan.json; владелец утверждает ключевые решения.",
+      "gdd_refs": [
+        "gdd.vision",
+        "gdd.decisions"
+      ],
+      "file_scope": [
+        "docs/**"
+      ],
+      "depends_on": [],
+      "done_when": [
+        "GDD утверждён владельцем",
+        "work_plan.json проходит check",
+        "PR слит"
+      ],
+      "branch": "task/t0-gdd",
+      "status": "planned"
+    },
+    {
+      "id": "T1",
+      "title": "Каркас проекта и CI",
+      "stage": "S1",
+      "lane": "core",
+      "goal": "Создать структуру проекта, сборку и CI-проверки (экспорт/тесты).",
+      "gdd_refs": [
+        "gdd.architecture"
+      ],
+      "modules": [
+        "core"
+      ],
+      "file_scope": [
+        "project.godot",
+        "scenes/**",
+        ".github/workflows/**"
+      ],
+      "depends_on": [
+        "T0"
+      ],
+      "done_when": [
+        "Обязательный CI зелёный",
+        "Тесты покрывают новую логику",
+        "PR слит порталом"
+      ],
+      "branch": "task/t1",
+      "status": "planned"
+    },
+    {
+      "id": "T2",
+      "title": "Основная игровая механика",
+      "stage": "S1",
+      "lane": "gameplay",
+      "goal": "Реализовать базовый игровой цикл по GDD.",
+      "gdd_refs": [
+        "gdd.features"
+      ],
+      "modules": [
+        "gameplay"
+      ],
+      "file_scope": [
+        "scripts/gameplay/**",
+        "scenes/gameplay/**"
+      ],
+      "depends_on": [
+        "T1"
+      ],
+      "done_when": [
+        "Обязательный CI зелёный",
+        "Тесты покрывают новую логику",
+        "PR слит порталом"
+      ],
+      "branch": "task/t2",
+      "status": "planned"
+    },
+    {
+      "id": "T3",
+      "title": "Интерфейс меню",
+      "stage": "S1",
+      "lane": "ui",
+      "goal": "Главное меню, пауза, настройки звука.",
+      "gdd_refs": [
+        "gdd.ui"
+      ],
+      "modules": [
+        "ui"
+      ],
+      "file_scope": [
+        "scenes/ui/**",
+        "scripts/ui/**"
+      ],
+      "depends_on": [
+        "T1"
+      ],
+      "done_when": [
+        "Обязательный CI зелёный",
+        "Тесты покрывают новую логику",
+        "PR слит порталом"
+      ],
+      "branch": "task/t3",
+      "status": "planned"
+    },
+    {
+      "id": "T4",
+      "title": "Релизная сборка и артефакт",
+      "stage": "S2",
+      "lane": "release",
+      "goal": "Workflow релиза с release.json и SHA256SUMS.",
+      "gdd_refs": [
+        "gdd.release"
+      ],
+      "modules": [
+        "release"
+      ],
+      "file_scope": [
+        ".github/workflows/release.yml",
+        "export_presets.cfg"
+      ],
+      "depends_on": [
+        "T1",
+        "T2",
+        "T3"
+      ],
+      "done_when": [
+        "Обязательный CI зелёный",
+        "Тесты покрывают новую логику",
+        "PR слит порталом"
+      ],
+      "branch": "task/t4",
+      "status": "planned"
+    }
+  ]
+}
