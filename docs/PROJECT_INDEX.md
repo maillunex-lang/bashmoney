@@ -44,10 +44,7 @@
 
 ## Устаревшие ссылки
 - Модуль design: contracts docs/contracts/design.md не существует
-- Модуль catalog: paths server/catalog/** не существует
-- Модуль catalog: paths tests/catalog/** не существует
 - Модуль catalog: contracts docs/contracts/catalog.md не существует
-- Модуль catalog: tests tests/catalog/** не существует
 - Модуль economy: paths server/economy/** не существует
 - Модуль economy: paths tests/economy/** не существует
 - Модуль economy: contracts docs/contracts/economy.md не существует
