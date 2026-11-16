@@ -1,0 +1,55 @@
+name: Checks
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  roadmap:
+    name: roadmap
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate work plan
+        run: |
+          python3 tools/work_plan.py check
+          python3 tools/work_plan.py render --write
+          git diff --exit-code -- docs/WORK_PLAN.md
+  context:
+    name: context
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate project index and module graph
+        run: |
+          python3 tools/context_pack.py check
+          python3 tools/context_pack.py index --write
+          git diff --exit-code -- docs/PROJECT_INDEX.md
+  docs:
+    name: docs
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify required GDD and governance files
+        run: |
+          test -s docs/GDD.md
+          test -s docs/gdd/DECISIONS_APPROVED.md
+          test -s docs/gdd/07_economy.md
+          test -s docs/gdd/08_world.md
+          test -s docs/AI_RULES.md
+          test -s docs/PORTAL_PROTOCOL.md
+          test -s docs/EXECUTOR_RULES.md
+          grep -q "D-09" docs/gdd/DECISIONS_APPROVED.md
+          grep -q "D-10" docs/gdd/DECISIONS_APPROVED.md
+          grep -q "D-11" docs/gdd/DECISIONS_APPROVED.md
