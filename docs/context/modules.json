@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "project": "Бизнес Башкортостан",
+  "project": "Мед и Нефть",
   "docs": {
     "gdd.vision": {
       "path": "docs/gdd/01_vision.md",
@@ -36,6 +36,16 @@
       "path": "docs/gdd/DECISIONS_APPROVED.md",
       "title": "Утверждённые решения",
       "summary": "решения владельца"
+    },
+    "gdd.economy": {
+      "path": "docs/gdd/07_economy.md",
+      "title": "Экономические правила",
+      "summary": "расчёт, спрос, производство и деньги"
+    },
+    "gdd.world": {
+      "path": "docs/gdd/08_world.md",
+      "title": "Мир и география",
+      "summary": "города и изометрическая карта"
     }
   },
   "always_docs": [
@@ -43,76 +53,270 @@
   ],
   "modules": [
     {
-      "id": "core",
-      "title": "core",
+      "id": "design",
+      "title": "GDD и дорожная карта",
       "paths": [
-        "project.godot",
-        "scenes/**",
-        ".github/workflows/**"
+        "docs/**"
       ],
       "docs": [
+        "gdd.vision",
+        "gdd.features",
         "gdd.architecture"
       ],
       "contracts": [
-        "docs/contracts/core.md"
+        "docs/contracts/design.md"
+      ],
+      "tests": [],
+      "public": [],
+      "depends_on": []
+    },
+    {
+      "id": "catalog",
+      "title": "Каталоги и рецепты",
+      "paths": [
+        "server/catalog/**",
+        "tests/catalog/**"
+      ],
+      "docs": [
+        "gdd.features",
+        "gdd.architecture"
+      ],
+      "contracts": [
+        "docs/contracts/catalog.md"
       ],
       "tests": [
-        "tests/core/**"
+        "tests/catalog/**"
       ],
       "public": [],
       "depends_on": []
     },
     {
-      "id": "gameplay",
-      "title": "gameplay",
+      "id": "economy",
+      "title": "Целочисленный симулятор производства",
       "paths": [
-        "scripts/gameplay/**",
-        "scenes/gameplay/**"
+        "server/economy/**",
+        "tests/economy/**"
+      ],
+      "docs": [
+        "gdd.features",
+        "gdd.architecture"
+      ],
+      "contracts": [
+        "docs/contracts/economy.md"
+      ],
+      "tests": [
+        "tests/economy/**"
+      ],
+      "public": [],
+      "depends_on": [
+        "catalog"
+      ]
+    },
+    {
+      "id": "market",
+      "title": "Спрос населения и розничный рынок",
+      "paths": [
+        "server/market/**",
+        "tests/market/**"
       ],
       "docs": [
         "gdd.features"
       ],
       "contracts": [
-        "docs/contracts/gameplay.md"
+        "docs/contracts/market.md"
       ],
       "tests": [
-        "tests/gameplay/**"
+        "tests/market/**"
       ],
       "public": [],
       "depends_on": [
-        "core"
+        "catalog"
       ]
     },
     {
-      "id": "ui",
-      "title": "ui",
+      "id": "companies",
+      "title": "Компании, счета и проводки",
       "paths": [
-        "scenes/ui/**",
-        "scripts/ui/**"
+        "server/companies/**",
+        "tests/companies/**"
+      ],
+      "docs": [
+        "gdd.features",
+        "gdd.architecture"
+      ],
+      "contracts": [
+        "docs/contracts/companies.md"
+      ],
+      "tests": [
+        "tests/companies/**"
+      ],
+      "public": [],
+      "depends_on": []
+    },
+    {
+      "id": "server",
+      "title": "Серверные команды и API",
+      "paths": [
+        "server/api/**",
+        "tests/api/**"
+      ],
+      "docs": [
+        "gdd.architecture"
+      ],
+      "contracts": [
+        "docs/contracts/server.md"
+      ],
+      "tests": [
+        "tests/api/**"
+      ],
+      "public": [],
+      "depends_on": [
+        "economy",
+        "market",
+        "companies"
+      ]
+    },
+    {
+      "id": "logistics",
+      "title": "Поставки и логистика",
+      "paths": [
+        "server/logistics/**",
+        "tests/logistics/**"
+      ],
+      "docs": [
+        "gdd.features"
+      ],
+      "contracts": [
+        "docs/contracts/logistics.md"
+      ],
+      "tests": [
+        "tests/logistics/**"
+      ],
+      "public": [],
+      "depends_on": [
+        "catalog",
+        "companies"
+      ]
+    },
+    {
+      "id": "world",
+      "title": "Города и данные мира Башкортостана",
+      "paths": [
+        "server/world/**",
+        "tests/world/**"
+      ],
+      "docs": [
+        "gdd.features"
+      ],
+      "contracts": [
+        "docs/contracts/world.md"
+      ],
+      "tests": [
+        "tests/world/**"
+      ],
+      "public": [],
+      "depends_on": []
+    },
+    {
+      "id": "client_core",
+      "title": "Godot Android каркас",
+      "paths": [
+        "client/project.godot",
+        "client/core/**",
+        "tests/client_core/**"
       ],
       "docs": [
         "gdd.ui"
       ],
       "contracts": [
-        "docs/contracts/ui.md"
+        "docs/contracts/client_core.md"
       ],
       "tests": [
-        "tests/ui/**"
+        "tests/client_core/**"
+      ],
+      "public": [],
+      "depends_on": []
+    },
+    {
+      "id": "client_map",
+      "title": "Изометрическая 3D-карта",
+      "paths": [
+        "client/map/**",
+        "tests/client_map/**"
+      ],
+      "docs": [
+        "gdd.ui"
+      ],
+      "contracts": [
+        "docs/contracts/client_map.md"
+      ],
+      "tests": [
+        "tests/client_map/**"
       ],
       "public": [],
       "depends_on": [
-        "core"
+        "client_core",
+        "world"
+      ]
+    },
+    {
+      "id": "client_ui",
+      "title": "Управленческие экраны Android",
+      "paths": [
+        "client/ui/**",
+        "tests/client_ui/**"
+      ],
+      "docs": [
+        "gdd.ui"
+      ],
+      "contracts": [
+        "docs/contracts/client_ui.md"
+      ],
+      "tests": [
+        "tests/client_ui/**"
+      ],
+      "public": [],
+      "depends_on": [
+        "client_core",
+        "server"
+      ]
+    },
+    {
+      "id": "integration",
+      "title": "Сквозной экономический цикл",
+      "paths": [
+        "tests/integration/**",
+        "tools/scenarios/**"
+      ],
+      "docs": [
+        "gdd.features"
+      ],
+      "contracts": [
+        "docs/contracts/integration.md"
+      ],
+      "tests": [
+        "tests/integration/**"
+      ],
+      "public": [],
+      "depends_on": [
+        "server",
+        "logistics",
+        "world",
+        "client_map",
+        "client_ui"
       ]
     },
     {
       "id": "release",
-      "title": "release",
+      "title": "Android альфа и проверка производительности",
       "paths": [
-        ".github/workflows/release.yml",
-        "export_presets.cfg"
+        "release/**",
+        "tests/release/**",
+        "client/export_presets.cfg"
       ],
       "docs": [
-        "gdd.release"
+        "gdd.release",
+        "gdd.quality"
       ],
       "contracts": [
         "docs/contracts/release.md"
@@ -122,11 +326,57 @@
       ],
       "public": [],
       "depends_on": [
-        "core"
+        "integration"
+      ]
+    },
+    {
+      "id": "research",
+      "title": "Наука, технологии и оборудование",
+      "paths": [
+        "server/research/**",
+        "tests/research/**"
+      ],
+      "docs": [
+        "gdd.features"
+      ],
+      "contracts": [
+        "docs/contracts/research.md"
+      ],
+      "tests": [
+        "tests/research/**"
+      ],
+      "public": [],
+      "depends_on": [
+        "economy",
+        "companies"
+      ]
+    },
+    {
+      "id": "social",
+      "title": "Корпорации и совместные контракты",
+      "paths": [
+        "server/social/**",
+        "tests/social/**"
+      ],
+      "docs": [
+        "gdd.features"
+      ],
+      "contracts": [
+        "docs/contracts/social.md"
+      ],
+      "tests": [
+        "tests/social/**"
+      ],
+      "public": [],
+      "depends_on": [
+        "server",
+        "companies"
       ]
     }
   ],
   "critical_rules": [
-    "Релиз публикуется только из релизного workflow (канал release, подпись, SHA256SUMS)."
+    "Общие файлы GDD, docs/work_plan.json и индекс изменяет только директор.",
+    "Выполнено только после зелёного CI и слияния PR.",
+    "Никаких изменений чужих VPS-сервисов, деплой только по разрешению владельца."
   ]
 }
